@@ -1,0 +1,23 @@
+#!/bin/bash
+
+DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+cd $DIR
+cd ..
+CURR_FOLDER=`pwd`
+
+# Root
+cd $CURR_FOLDER
+
+USER="tex"
+SERVER="200.98.233.178"
+DEPLOY_FOLDER="~/www/nimble/themes"
+PUBLIC="${CURR_FOLDER}/public"
+
+# Public
+npm run prod
+
+# Sync
+rsync -avzlhe ssh -r --include-from $CURR_FOLDER/.rsync-include --exclude-from $CURR_FOLDER/.rsync-exclude $PUBLIC/. $USER@$SERVER:$DEPLOY_FOLDER > $CURR_FOLDER/.rsync.log
+
+cowsay 'Deploy finalizado... Yeahh!!'
+exit

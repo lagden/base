@@ -1,0 +1,59 @@
+{
+  "name": "nimble-theme",
+  "version": "1.0.0",
+  "description": "Monte o seu tema para o Nimble",
+  "keywords": [
+    "theme",
+    "custom",
+    "nimble"
+  ],
+  "license": "UNLICENSED",
+  "author": "Thiago Lagden <lagden@textecnologia.com.br>",
+  "contributors": [
+    {
+      "name": "Felipe Silva",
+      "email": "fsilva@teleportweb.com.br",
+      "url": "https://github.com/felipoliveira"
+    }
+  ],
+  "scripts": {
+    "postcss": "env DEBUG=app:* ./bin/postcss.js",
+    "prod": "env NODE_ENV=production gulp",
+    "start": "ws -p 3132 -d dev & gulp watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "6.4.0",
+    "debug": "2.2.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-pug": "3.0.4",
+    "mkdirp": "0.5.1",
+    "nib": "1.1.0",
+    "pify": "2.3.0",
+    "postcss": "5.1.1",
+    "postcss-inline-base64": "2.0.0",
+    "rupture": "0.6.1",
+    "stylus": "0.54.5",
+    "xo": "0.16.0"
+  },
+  "engines": {
+    "node": ">=5.1.0"
+  },
+  "xo": {
+    "ignore": [
+      "dev/js/{,*/}*.js"
+    ],
+    "esnext": true,
+    "envs": [
+      "es6"
+    ],
+    "global": [
+      "window",
+      "document",
+      "define",
+      "require",
+      "requirejs"
+    ]
+  },
+  "main": "index.html"
+}

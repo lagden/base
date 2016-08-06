@@ -6,10 +6,12 @@ const symlink = require('./gulp/symlink');
 const pug = require('./gulp/pug');
 const stylus = require('./gulp/stylus');
 const rollup = require('./gulp/rollup');
+const cp = require('./gulp/cp');
 const build = require('./gulp/build');
 
 gulp.task('default', gulp.parallel(
 	symlink.node,
+	cp.favicon,
 	stylus.task,
 	pug.task,
 	rollup.task

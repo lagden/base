@@ -26,11 +26,11 @@ function doIt() {
 }
 
 txtNode.push(document.createElement('br'));
-txtNode.push(document.createTextNode('meus commits -> lagden/utils/commits'));
+txtNode.push(document.createTextNode('<----> lagden/base/commits'));
 txtNode.push(document.createElement('br'));
 
 $.ajax({
-	url: 'https://api.github.com/repos/lagden/utils/commits',
+	url: 'https://api.github.com/repos/lagden/base/commits',
 	global: false
 })
 	.then(rs => {

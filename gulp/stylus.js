@@ -8,7 +8,7 @@ const watch = require('./helpers/watch');
 const exec = pify(ch.exec);
 const isDev = (process.env.NODE_ENV || 'development') === 'development';
 const stylusPath = join(__dirname, '..', 'src', 'stylus');
-const cmd = `env NODE_ENV=${isDev ? 'development' : 'prod'} npm run postcss`;
+const cmd = `env NODE_ENV=${isDev ? 'development' : 'production'} npm run postcss`;
 
 function css() {
 	return exec(cmd);

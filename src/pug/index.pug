@@ -3,3 +3,9 @@ extends ./base/layout
 block content
 	main.boxes
 		include ./includes/box
+
+block scripts
+	if (isDev)
+		script(src='/node_modules/requirejs/require.js' data-main='/js/app' async)
+	else
+		script(src='/js/app.min.js' async)

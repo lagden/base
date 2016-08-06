@@ -13,6 +13,7 @@ const debug = require('debug');
 const b64 = require('postcss-inline-base64');
 const nib = require('nib');
 const rupture = require('rupture');
+const cssnano = require('cssnano');
 
 const log = debug('app:log');
 const error = debug('app:error');
@@ -23,7 +24,27 @@ const outPath = join(__dirname, '..', isDev ? 'dev' : 'public', 'css');
 const file = join(stylusPath, 'app.styl');
 const out = 'app.css';
 
-pify(mkdirp)(join(outPath, 'maps'), 0o755)
+const postcssPlugins = [
+	autoprefixer,
+	b64
+];
+
+const postcssSourceMap = {};
+
+if (isDev === false) {
+	postcssPlugins.push(cssnano);
+} else {
+	Object.assign(postcssSourceMap, {
+		from: out,
+		map: {
+			inline: false,
+			annotation: `maps/${out}.map`,
+			sourcesContent: false
+		}
+	});
+}
+
+pify(mkdirp)(join(outPath), 0o755)
 	.then(() => pify(fs.readFile)(file, 'utf8'))
 	.then(str => new Promise((resolve, reject) => {
 		log(`Read the file: ${file}`);
@@ -40,24 +61,18 @@ pify(mkdirp)(join(outPath, 'maps'), 0o755)
 			});
 	}))
 	.then(css => {
-		return postcss([
-			autoprefixer,
-			b64
-		]).process(css, {
-			from: out,
-			map: {
-				inline: false,
-				annotation: `maps/${out}.map`,
-				sourcesContent: false
-			}});
+		return postcss(postcssPlugins).process(css, postcssSourceMap);
 	})
 	.then(result => {
 		log('Postcss processed');
 		const wsCss = fs.createWriteStream(join(outPath, out));
 		wsCss.end(result.css);
-		if (result.map) {
-			const wsMap = fs.createWriteStream(join(outPath, 'maps', `${out}.map`));
-			wsMap.end(result.map.toString());
+		if (result.map && isDev) {
+			pify(mkdirp)(join(outPath, 'maps'), 0o755)
+				.then(() => {
+					const wsMap = fs.createWriteStream(join(outPath, 'maps', `${out}.map`));
+					wsMap.end(result.map.toString());
+				});
 		}
 	})
 	.catch(err => {

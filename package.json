@@ -1,7 +1,7 @@
 {
   "name": "nimble-theme",
   "version": "1.0.0",
-  "description": "Monte o seu tema para o Nimble",
+  "description": "Fast and efficient solution for generating themes",
   "keywords": [
     "theme",
     "custom",
@@ -17,21 +17,34 @@
     }
   ],
   "scripts": {
-    "postcss": "env DEBUG=app:* ./bin/postcss.js",
-    "prod": "env NODE_ENV=production gulp",
+    "postcss": "DEBUG=app:* ./bin/postcss.js",
+    "rollup": "BABEL_ENV=rollup ./bin/rollup.js",
+    "optimize": "r.js -o tools/build.js",
+    "gzip": "find ./public/js -name '*.js' -type f -exec sh -c 'gzip -c --best {} > {}.gz' \\;",
+    "build": "NODE_ENV=production gulp build && npm run gzip",
+    "public": "npm run build && ws -p 3134 -d public",
     "start": "ws -p 3132 -d dev & gulp watch"
   },
   "dependencies": {},
   "devDependencies": {
+    "almond": "0.3.2",
     "autoprefixer": "6.4.0",
+    "babel-polyfill": "6.13.0",
+    "babel-preset-es2015-rollup": "1.1.1",
+    "cssnano": "3.7.3",
     "debug": "2.2.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-pug": "3.0.4",
+    "gulplog": "1.0.0",
+    "jquery": "3.1.0",
     "mkdirp": "0.5.1",
     "nib": "1.1.0",
     "pify": "2.3.0",
     "postcss": "5.1.1",
     "postcss-inline-base64": "2.0.0",
+    "requirejs": "2.2.0",
+    "rollup": "0.34.3",
+    "rollup-plugin-babel": "2.6.1",
     "rupture": "0.6.1",
     "stylus": "0.54.5",
     "xo": "0.16.0"
@@ -41,7 +54,8 @@
   },
   "xo": {
     "ignore": [
-      "dev/js/{,*/}*.js"
+      "dev/js/**/*.js",
+      "public/js/**/*.js"
     ],
     "esnext": true,
     "envs": [
@@ -50,10 +64,16 @@
     "global": [
       "window",
       "document",
-      "define",
-      "require",
       "requirejs"
     ]
   },
-  "main": "index.html"
+  "babel": {
+    "env": {
+      "rollup": {
+        "presets": [
+          "es2015-rollup"
+        ]
+      }
+    }
+  }
 }

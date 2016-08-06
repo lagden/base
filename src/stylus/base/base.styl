@@ -1,5 +1,47 @@
 :root
-	--color-title color-white
+	--color-html color-white
+
+	// Header
+	--color-header rgba(color-black, 0.87)
+
+	// Header > Progresso
+	--color-progresso color-white
+	--color-progresso-active st-brand
+	--color-progresso-icon color-black
+	--color-progresso-icon-active color-black
+
+	// Box
+	--color-box #CCC
+	--color-box-hover #DDD
+	--color-box-txt #333
+	--color-box-txt-hover #333
+
+	// Box > Disabled
+	--color-box-disabled #E1E1E1
+	--color-box-disabled-hover #F1F1F1
+	--color-box-disabled-txt #AAA
+	--color-box-disabled-txt-hover #AAA
+
+	// Box > OK
+	--color-box-ok st-brand
+	--color-box-ok-hover lighten(st-brand, 10%)
+	--color-box-ok-txt color-black
+	--color-box-ok-txt-hover color-black
+
+	// Box > Opened
+	--color-box-open #D1D1D1
+
+	// Box > Opened > Form
+	--color-box-form st-brand
+	--color-box-form-hover lighten(st-brand, 10%)
+	--color-box-form-txt color-black
+	--color-box-form-txt-hover color-black
+
+	// Box > Opened > Form > Bubble
+	--color-box-bubble st-brand
+	--color-box-bubble-hover lighten(st-brand, 10%)
+	--color-box-bubble-txt color-black
+	--color-box-bubble-txt-hover color-black
 
 html
 body
@@ -9,12 +51,24 @@ html
 	roboto()
 
 body
-	color nd-brand
-	background-color green
-	+below('l')
-		background-color green
+	color color-black
+	background-color color-red
+
+// .header
+// 	position fixed
+// 	top 0
+// 	left 0
+
+// .progresso
+
+// .progresso__bar
+
+// .progresso__bar--icon
+
+.box
+	padding 20px
 
 .box__title
-	color var(--color-title)
-	padding 20px
+	color var(--color-html)
 	font-size 2em
+	margin-bottom 1em

@@ -12,5 +12,5 @@ insert_final_newline = true
 [*.{md,pug}]
 trim_trailing_whitespace = false
 
-[*.{md}]
+[*.{md,json}]
 indent_style = space

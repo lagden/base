@@ -5,13 +5,19 @@
 const join = require('path').join;
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
+const debug = require('debug');
+
+const log = debug('app:log');
+const error = debug('app:error');
 
 const isDev = (process.env.NODE_ENV || 'development') === 'development';
 const jsPath = join(__dirname, '..', 'src', 'js');
 const outPath = join(__dirname, '..', 'dev', 'js');
 
 const plugins = [
-	babel()
+	babel({
+		babelrc: false
+	})
 ];
 
 function baseRollup(entry, dest, moduleId) {
@@ -22,7 +28,7 @@ function baseRollup(entry, dest, moduleId) {
 			plugins
 		})
 		.then(bundle => {
-			bundle.write({
+			return bundle.write({
 				format: 'amd',
 				sourceMap: isDev,
 				useStrict: true,
@@ -33,6 +39,8 @@ function baseRollup(entry, dest, moduleId) {
 		});
 }
 
+log('Building...');
+
 function run() {
 	return Promise.all([
 		baseRollup(join(jsPath, 'config.js'), join(outPath, 'config.js'), 'config'),
@@ -41,4 +49,8 @@ function run() {
 	]);
 }
 
-run();
+run()
+	.then(() => {
+		log('scripts created...');
+	})
+	.catch(error);
